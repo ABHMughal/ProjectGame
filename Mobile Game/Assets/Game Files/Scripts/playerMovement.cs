@@ -24,9 +24,12 @@ public class playerMovement : MonoBehaviour
 
     }
 
+
+
     // Update is called once per frame
     void Update()
     {
+        rigidBody.freezeRotation = true;
 
         float inputX = Input.GetAxis("Horizontal");
         rigidBody.velocity = new Vector2(inputX * speedPower, rigidBody.velocity.y);
@@ -41,13 +44,18 @@ public class playerMovement : MonoBehaviour
         {
             ground = false;
             rigidBody.velocity = new Vector2(rigidBody.velocity.x, jumpPower);
-
+            animator.SetInteger("action", 2);
         }
         
-        if (ground && (inputX > 0 || inputX < 0))
+        if(ground)
         {
-            
+            if (inputX != 0 && animator.GetInteger("action") == 0)
+                animator.SetInteger("action", 1);
+            else if (inputX == 0)
+                animator.SetInteger("action", 0);
         }
+
+      
 
     }
 
@@ -55,7 +63,11 @@ public class playerMovement : MonoBehaviour
     {
         if (col.collider.CompareTag("Ground"))
         {
+            float inputX = Input.GetAxis("Horizontal");
             ground = true;
+            animator.SetInteger("action", 0);
+            if (inputX != 0)
+                animator.SetInteger("action", 1);
         }
     }
 }
