@@ -34,11 +34,15 @@ public class playerMovement : MonoBehaviour
         float inputX = Input.GetAxis("Horizontal");
         rigidBody.velocity = new Vector2(inputX * speedPower, rigidBody.velocity.y);
 
+        //Debug.Log("In");
         if (inputX > 0)
+        {
             sprRenderer.flipX = true;
+        }
         else if (inputX < 0)
+        {
             sprRenderer.flipX = false;
-        
+        }
 
         if (Input.GetKeyDown("space") && ground)
         {
@@ -49,6 +53,7 @@ public class playerMovement : MonoBehaviour
         
         if(ground)
         {
+            Debug.Log("Run");
             if (inputX != 0 && animator.GetInteger("action") == 0)
                 animator.SetInteger("action", 1);
             else if (inputX == 0)
